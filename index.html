@@ -1,1 +1,30 @@
-Hello World
+<html>
+
+<body>
+<script src="tesseract.js"></script>
+    <input id="fileupload" type="file" 
+    onchange="Tesseract.recognize(this.files[0])
+    .progress(function(data){console.log(data);
+        var contentArea = document.getElementById('document-progress');
+        contentArea.innerHTML = 'Work:'+  data.status + ' % '  + data.progress * 100;
+    }
+    )
+    .then(function(data){console.log(data);
+        var contentArea = document.getElementById('document-content');
+        contentArea.innerHTML = data.html;
+        var oFReader = new FileReader();
+
+        oFReader.readAsDataURL(document.getElementById('fileupload').files[0]);
+
+        oFReader.onload = function (oFREvent) {
+            document.getElementById('uploadPreview').src = oFREvent.target.result;
+        }
+    })" >
+
+    <div id="document-content">
+    </div>
+    <div id="document-progress">
+    </div>
+    <img id="uploadPreview" style="width: 800px; height: 400px;" />
+</body>
+</html>
